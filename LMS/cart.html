@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart Page</title>
+    <link rel="stylesheet" href="navbar.css" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f7f7f7;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav {
+        width: 100%;
+        height: 60px;
+        background-color: #333;
+        color: #fff;
+      }
+
+      table {
+        width: 80%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      thead {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      th {
+        font-weight: bold;
+      }
+
+      tbody tr td:last-child {
+        color: #4caf50;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <nav><!-- Navbar content will be loaded here --></nav>
+    <h1>My Cart</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Title of Course</th>
+          <th>Instructor</th>
+          <th>Price (₹)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script type="module">
+      import loadNavbar from "./navbar.js";
+      loadNavbar();
+
+      (function fetchCartData() {
+        fetch("https://masai-86fa7-default-rtdb.firebaseio.com/cart.json")
+          .then((res) => res.json())
+          .then((data) => displayCartTable(data));
+      })();
+
+      function displayCartTable(data) {
+        // let totalPrice = 0;
+        const cartItems = Object.entries(data);
+        const tbody = document.querySelector("tbody");
+        cartItems.forEach((elem) => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${elem[1].title}</td>
+              <td>${elem[1].instructor}</td>
+              <td>₹${elem[1].price}</td>
+            </tr>`;
+          //   totalPrice += elem[1].price;
+        });
+        // document.querySelector(".total-Price").textContent.
+      }
+    </script>
+  </body>
+</html>
